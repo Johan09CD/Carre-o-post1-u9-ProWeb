@@ -4,21 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 45px;
+            width: 480px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 20px;
+        }
+        h1 { color: white; font-size: 26px; margin-bottom: 8px; }
+        .email { color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 15px; }
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        .badge-admin { background: rgba(233,69,96,0.2); color: #e94560; border: 1px solid rgba(233,69,96,0.3); }
+        .badge-user { background: rgba(46,213,115,0.2); color: #2ed573; border: 1px solid rgba(46,213,115,0.3); }
+        .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .btn {
+            display: block;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: opacity 0.3s;
+        }
+        .btn-cursos {
+            background: rgba(99,102,241,0.2);
+            color: #818cf8;
+            border: 1px solid rgba(99,102,241,0.3);
+        }
+        .btn-estudiantes {
+            background: rgba(46,213,115,0.2);
+            color: #2ed573;
+            border: 1px solid rgba(46,213,115,0.3);
+        }
+        .btn-admin {
+            background: linear-gradient(135deg, #e94560, #c23152);
+            color: white;
+            grid-column: span 2;
+        }
+        .btn-logout {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: opacity 0.3s;
+        }
+        .btn:hover, .btn-logout:hover { opacity: 0.85; }
+    </style>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <p>Bienvenido, <span sec:authentication="name"></span></p>
+    <div class="card">
+        <div class="avatar">👤</div>
+        <h1>Dashboard</h1>
+        <p class="email" sec:authentication="name"></p>
 
-    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">
-        Panel de Administración
-    </a>
+        <span sec:authorize="hasRole('ADMIN')" class="badge badge-admin">⭐ ADMINISTRADOR</span>
+        <span sec:authorize="hasRole('USER')" class="badge badge-user">✓ USUARIO</span>
 
-    <p sec:authorize="hasRole('USER')">
-        Acceso de usuario estándar.
-    </p>
+        <div class="menu">
+            <a th:href="@{/cursos}" class="btn btn-cursos">📚 Cursos</a>
+            <a th:href="@{/estudiantes}" class="btn btn-estudiantes">🎓 Estudiantes</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" class="btn btn-admin">🛡 Panel de Administración</a>
+        </div>
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Cerrar Sesión</button>
-    </form>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout">🚪 Cerrar Sesión</button>
+        </form>
+    </div>
 </body>
 </html>

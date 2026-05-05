@@ -3,30 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: white; font-size: 28px; margin-bottom: 8px; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 30px; }
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        thead tr { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { color: rgba(255,255,255,0.5); font-size: 12px; text-transform: uppercase; padding: 12px 15px; text-align: left; }
+        td { color: white; font-size: 14px; padding: 14px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-admin { background: rgba(233,69,96,0.2); color: #e94560; }
+        .badge-user { background: rgba(46,213,115,0.2); color: #2ed573; }
+        .badge-active { background: rgba(46,213,115,0.2); color: #2ed573; }
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 13px;
+            transition: opacity 0.3s;
+        }
+        .back-btn:hover { opacity: 0.8; }
+    </style>
 </head>
 <body>
-    <h1>Panel de Administración</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Activo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="u : ${usuarios}">
-                <td th:text="${u.id}"></td>
-                <td th:text="${u.nombre}"></td>
-                <td th:text="${u.email}"></td>
-                <td th:text="${u.rol}"></td>
-                <td th:text="${u.activo}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    <a th:href="@{/dashboard}">Volver al Dashboard</a>
+    <div class="container">
+        <h1>🛡 Panel de Administración</h1>
+        <p class="subtitle">Gestión de usuarios del sistema</p>
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${usuarios}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.nombre}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td>
+                            <span th:if="${u.rol == 'ROLE_ADMIN'}" class="badge badge-admin">ADMIN</span>
+                            <span th:if="${u.rol == 'ROLE_USER'}" class="badge badge-user">USER</span>
+                        </td>
+                        <td>
+                            <span th:if="${u.activo}" class="badge badge-active">✓ Activo</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a th:href="@{/dashboard}" class="back-btn">← Volver al Dashboard</a>
+    </div>
 </body>
 </html>

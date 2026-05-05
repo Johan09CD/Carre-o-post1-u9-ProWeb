@@ -3,31 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+        }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { color: #e94560; font-size: 26px; }
+        .logo p { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 5px; }
+        .form-group { margin-bottom: 18px; }
+        label { color: rgba(255,255,255,0.7); font-size: 13px; display: block; margin-bottom: 8px; }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        input:focus { border-color: #e94560; }
+        .error { color: #e94560; font-size: 12px; margin-top: 5px; display: block; }
+        button {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #e94560, #c23152);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-top: 5px;
+        }
+        button:hover { opacity: 0.9; }
+        .link { text-align: center; margin-top: 20px; }
+        .link a { color: #e94560; text-decoration: none; font-size: 13px; }
+    </style>
 </head>
 <body>
-    <h1>Registro de Usuario</h1>
-    <form th:action="@{/registro}" th:object="${usuario}" method="post">
-        <div>
-            <label>Nombre:
-                <input type="text" th:field="*{nombre}" required />
-            </label>
-            <span th:if="${#fields.hasErrors('nombre')}"
-                  th:errors="*{nombre}" style="color:red"></span>
+    <div class="card">
+        <div class="logo">
+            <h1>📝 Registro</h1>
+            <p>Crea tu cuenta en SecureApp</p>
         </div>
-        <div>
-            <label>Correo:
-                <input type="email" th:field="*{email}" required />
-            </label>
-            <span th:if="${#fields.hasErrors('email')}"
-                  th:errors="*{email}" style="color:red"></span>
+        <form th:action="@{/registro}" th:object="${usuario}" method="post">
+            <div class="form-group">
+                <label>Nombre completo</label>
+                <input type="text" th:field="*{nombre}" placeholder="Tu nombre" required />
+                <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" th:field="*{email}" placeholder="correo@ejemplo.com" required />
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" th:field="*{contrasenia}" placeholder="••••••••" required />
+            </div>
+            <button type="submit">Crear cuenta</button>
+        </form>
+        <div class="link">
+            <a th:href="@{/login}">¿Ya tiene cuenta? Iniciar sesión</a>
         </div>
-        <div>
-            <label>Contraseña:
-                <input type="password" th:field="*{contrasenia}" required />
-            </label>
-        </div>
-        <button type="submit">Registrarse</button>
-    </form>
-    <a th:href="@{/login}">¿Ya tiene cuenta? Iniciar sesión</a>
+    </div>
 </body>
 </html>

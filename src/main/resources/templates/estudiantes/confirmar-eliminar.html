@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Eliminación</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 420px;
+            box-sizing: 0 25px 45px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .icon { font-size: 50px; margin-bottom: 20px; }
+        h1 { color: #e94560; font-size: 24px; margin-bottom: 10px; }
+        p { color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 25px; }
+        .name { color: white; font-weight: 600; }
+        .actions { display: flex; gap: 10px; }
+        .btn {
+            flex: 1;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            transition: opacity 0.3s;
+        }
+        .btn-delete { background: linear-gradient(135deg, #e94560, #c23152); color: white; }
+        .btn-cancel {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+        .btn:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">⚠️</div>
+        <h1>¿Eliminar estudiante?</h1>
+        <p>Estás a punto de eliminar a
+            <span class="name" th:text="${estudiante.nombre} + ' ' + ${estudiante.apellido}"></span>.
+            Esta acción no se puede deshacer.
+        </p>
+        <div class="actions">
+            <form th:action="@{'/estudiantes/eliminar/' + ${estudiante.id}}" method="post" style="flex:1">
+                <button type="submit" class="btn btn-delete" style="width:100%">🗑 Sí, eliminar</button>
+            </form>
+            <a href="/estudiantes" class="btn btn-cancel">Cancelar</a>
+        </div>
+    </div>
+</body>
+</html>

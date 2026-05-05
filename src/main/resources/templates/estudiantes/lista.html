@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Cursos</title>
+    <title>Lista de Estudiantes</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -26,27 +26,9 @@
         table { width: 100%; border-collapse: collapse; }
         thead tr { border-bottom: 1px solid rgba(255,255,255,0.1); }
         th { color: rgba(255,255,255,0.5); font-size: 12px; text-transform: uppercase; padding: 12px 15px; text-align: left; }
-        td { color: white; font-size: 14px; padding: 14px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+        td { color: white; font-size: 14px; padding: 14px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: rgba(255,255,255,0.03); }
-        .badge-creditos {
-            background: rgba(99,102,241,0.2);
-            color: #818cf8;
-            border: 1px solid rgba(99,102,241,0.3);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        .badge-est {
-            background: rgba(46,213,115,0.2);
-            color: #2ed573;
-            border: 1px solid rgba(46,213,115,0.2);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin: 2px;
-            display: inline-block;
-        }
         .btn {
             padding: 7px 14px;
             border-radius: 8px;
@@ -57,6 +39,7 @@
             border: none;
             transition: opacity 0.3s;
             display: inline-block;
+            margin-right: 5px;
         }
         .btn-new {
             background: linear-gradient(135deg, #e94560, #c23152);
@@ -65,8 +48,8 @@
             font-size: 14px;
             border-radius: 10px;
         }
-        .btn-inscribir { background: rgba(46,213,115,0.2); color: #2ed573; border: 1px solid rgba(46,213,115,0.3); }
-        .btn-desinscribir { background: rgba(233,69,96,0.2); color: #e94560; border: 1px solid rgba(233,69,96,0.3); }
+        .btn-edit { background: rgba(99,102,241,0.2); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+        .btn-delete { background: rgba(233,69,96,0.2); color: #e94560; border: 1px solid rgba(233,69,96,0.3); }
         .btn-back {
             display: inline-block;
             margin-top: 25px;
@@ -79,19 +62,24 @@
             font-size: 13px;
         }
         .btn:hover { opacity: 0.8; }
-        .empty { color: rgba(255,255,255,0.3); font-style: italic; font-size: 13px; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .badge-carrera {
+            background: rgba(99,102,241,0.2);
+            color: #818cf8;
+            border: 1px solid rgba(99,102,241,0.3);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div>
-                <h1>📚 Cursos</h1>
-                <p class="subtitle">Gestión de cursos y estudiantes inscritos</p>
+                <h1>🎓 Estudiantes</h1>
+                <p class="subtitle">Gestión de estudiantes registrados</p>
             </div>
-            <a href="/cursos/nuevo" class="btn btn-new">+ Nuevo Curso</a>
+            <a href="/estudiantes/nuevo" class="btn btn-new">+ Nuevo Estudiante</a>
         </div>
         <div class="card">
             <table>
@@ -99,29 +87,20 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Créditos</th>
-                        <th>Estudiantes</th>
+                        <th>Email</th>
+                        <th>Carrera</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="curso : ${cursos}">
-                        <td th:text="${curso.id}"></td>
-                        <td th:text="${curso.nombre}"></td>
-                        <td><span class="badge-creditos" th:text="${curso.creditos} + ' cr'"></span></td>
+                    <tr th:each="est : ${estudiantes}">
+                        <td th:text="${est.id}"></td>
+                        <td th:text="${est.nombre} + ' ' + ${est.apellido}"></td>
+                        <td th:text="${est.email}"></td>
+                        <td><span class="badge-carrera" th:text="${est.carrera}"></span></td>
                         <td>
-                            <ul>
-                                <li th:each="est : ${curso.estudiantes}">
-                                    <span class="badge-est" th:text="${est.nombre} + ' ' + ${est.apellido}"></span>
-                                    <form th:action="@{'/cursos/' + ${curso.id} + '/desinscribir/' + ${est.id}}" method="post" style="display:inline;">
-                                        <button type="submit" class="btn btn-desinscribir">✕</button>
-                                    </form>
-                                </li>
-                            </ul>
-                            <span th:if="${#sets.isEmpty(curso.estudiantes)}" class="empty">Sin inscritos</span>
-                        </td>
-                        <td>
-                            <a th:href="@{'/cursos/' + ${curso.id} + '/inscribir'}" class="btn btn-inscribir">+ Inscribir</a>
+                            <a th:href="@{'/estudiantes/editar/' + ${est.id}}" class="btn btn-edit">✏ Editar</a>
+                            <a th:href="@{'/estudiantes/eliminar/' + ${est.id}}" class="btn btn-delete">🗑 Eliminar</a>
                         </td>
                     </tr>
                 </tbody>
