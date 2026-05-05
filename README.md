@@ -92,27 +92,3 @@ Abrir en el navegador: `http://localhost:8080/login`
 
 ### Error 403 — Acceso denegado
 ![Error 403](img/Error.png)
-
----
-
-## Estructura del proyecto
-src/main/java/com/universidad/estudiantes/
-├── config/
-│   └── SecurityConfig.java
-├── controller/
-│   ├── AuthController.java
-│   ├── CursoController.java
-│   └── EstudianteController.java
-├── model/
-│   ├── Usuario.java
-│   ├── Curso.java
-│   └── Estudiante.java
-├── repository/
-│   ├── UsuarioRepository.java
-│   ├── CursoRepository.java
-│   └── EstudianteRepository.java
-└── service/
-├── UsuarioService.java
-├── UsuarioDetailsService.java
-├── CursoService.java
-└── EstudianteService.java
